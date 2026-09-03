@@ -1,0 +1,29 @@
+.roster-page {
+  width: 100%; padding: 40px 60px; overflow-y: auto; background-color: #040814;
+}
+
+.back-btn {
+  background: transparent; border: none; color: #fbbf24; 
+  font-size: 1rem; font-weight: 600; cursor: pointer; padding: 0;
+  margin-bottom: 24px; display: inline-block; transition: color 0.2s ease;
+}
+
+.back-btn:hover { text-decoration: underline; color: #d97706; }
+
+.roster-header { margin-bottom: 40px; }
+.roster-header-content { display: flex; justify-content: space-between; align-items: center; }
+.roster-header-content h1 { margin: 0; font-size: 2.4rem; font-weight: 800; }
+.roster-subtitle { margin: 8px 0 0 0; font-size: 1.1rem; color: #9ca3af; font-weight: 500; }
+
+.full-width-card { width: 100%; max-width: 1100px; margin: 0 auto; }
+
+.large-table th { font-size: 0.9rem; padding: 16px 24px; background-color: #0a1128; border-bottom: 2px solid #1e293b; }
+.large-table td { padding: 20px 24px; font-size: 1.05rem; border-bottom: 1px solid #1e293b; }
+
+.id-col { color: #64748b !important; font-weight: 600; width: 10%; }
+.name-col { font-size: 1.15rem; width: 35%; color: #ffffff; }
+.role-badge { background-color: rgba(255, 255, 255, 0.05); color: #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid #334155; }
+.price-col { font-weight: 700; color: #10b981 !important; width: 25%; }
+
+.empty-roster { text-align: center; padding: 60px 20px; color: #64748b; }
+.empty-roster h2 { margin-top: 0; color: #ffffff; }

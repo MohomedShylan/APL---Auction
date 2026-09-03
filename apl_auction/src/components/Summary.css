@@ -1,0 +1,45 @@
+.summary-page { 
+  width: 100%; padding: 40px 60px; overflow-y: auto; 
+}
+
+.summary-header { margin-bottom: 40px; text-align: center; }
+.summary-header h1 { font-size: 2.5rem; font-weight: 800; color: #ffffff; margin-bottom: 10px; }
+.summary-header p { font-size: 1.1rem; color: #9ca3af; margin: 0; }
+
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+
+.summary-card {
+  background: #0f172a; border-radius: 16px; padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); border: 1px solid #1e293b;
+  display: flex; flex-direction: column;
+}
+
+.summary-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #1e293b; padding-bottom: 16px; }
+.summary-card-header h2 { margin: 0; font-size: 1.4rem; }
+
+.status-badge { font-size: 0.85rem; font-weight: 700; padding: 6px 12px; border-radius: 20px; }
+
+.summary-metrics { flex-grow: 1; margin-bottom: 24px; }
+.metric-box { display: flex; flex-direction: column; margin-bottom: 20px; }
+.metric-label { font-size: 0.9rem; color: #9ca3af; font-weight: 600; margin-bottom: 4px; }
+.metric-value { font-size: 1.8rem; font-weight: 800; color: #ffffff; }
+
+.progress-container { margin-top: 10px; }
+.progress-labels { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+.progress-bar { height: 8px; background-color: #1e293b; border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 10px; transition: width 0.4s ease; }
+
+.summary-card-footer { margin-top: auto; }
+/* --- NEW LOGO ALIGNMENT --- */
+.team-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Space between logo and text */
+}
+
+.team-summary-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain; 
+  border-radius: 4px; 
+}

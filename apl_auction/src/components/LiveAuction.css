@@ -1,0 +1,131 @@
+.live-auction-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #040814;
+  padding: 30px 40px;
+  overflow-y: auto;
+}
+
+.live-search-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  background-color: #0a1128;
+  padding: 20px 30px;
+  border-radius: 16px;
+  border: 1px solid #1e293b;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0; 
+}
+
+.live-search-header h2 {
+  margin: 0;
+  color: #fbbf24;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.search-box input {
+  width: 350px;
+  padding: 14px 20px;
+  border-radius: 50px;
+  border: 2px solid #334155;
+  background-color: #040814;
+  color: #fff;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #fbbf24;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+}
+
+.live-error {
+  color: #fca5a5;
+  font-weight: 600;
+  background: rgba(220, 38, 38, 0.2);
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+.live-display-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #0a1128;
+  border-radius: 16px;
+  border: 1px solid #1e293b;
+  padding: 30px;
+}
+
+.live-empty-state {
+  text-align: center;
+  color: #334155;
+  margin-top: 100px;
+}
+
+.live-empty-state p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+.live-player-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px; 
+}
+
+.presentation-image {
+  width: 100%;
+  max-width: 1200px; 
+  height: auto; 
+  background-color: #040814;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.live-action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.live-btn {
+  padding: 16px 48px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.live-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+.sold-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+}
+
+.unsold-btn {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4);
+}
