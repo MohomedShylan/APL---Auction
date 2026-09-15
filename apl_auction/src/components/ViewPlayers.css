@@ -1,0 +1,159 @@
+.view-players-container {
+  /* 1. Break out of the narrow container to full screen */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  
+  /* 2. Keep the smooth scrolling */
+  height: calc(100vh - 70px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  /* 3. Center the grid inside the full-screen view */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 80px 20px;
+  box-sizing: border-box;
+}
+
+.players-header {
+  width: 100%;
+  max-width: 1000px; /* Keeps the title aligned perfectly with the grid */
+  text-align: center;
+  margin-bottom: 40px;
+}
+.players-header h2 {
+  font-size: 2.2rem;
+  color: #0f172a;
+  margin: 0;
+  font-weight: 800;
+}
+
+.header-underline {
+  width: 80px;
+  height: 4px;
+  background-color: #eab308;
+  border-radius: 5px;
+  margin: 15px auto 0;
+}
+
+/* --- THE 2x2 GRID --- */
+.players-grid {
+  width: 100%;
+  max-width: 1300px; /* Prevents the 2x2 cards from stretching out too wide */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+.player-card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.player-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.player-card-header {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.player-id {
+  background: rgba(0, 0, 0, 0.25);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.player-card-body {
+  text-align: center;
+}
+
+/* --- PLAYER IMAGES & FALLBACKS --- */
+.player-image-wrapper {
+  margin: 0 auto 10px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.player-photo {
+  width: 100%;
+  max-width: 650px; /* Makes the graphic much larger */
+  height: auto; /* Maintains the natural proportions of your graphic */
+  border-radius: 8px; /* Clean, slightly rounded square corners */
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.player-avatar-fallback {
+  width: 250px;
+  height: 250px;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 5rem;
+  font-weight: 900;
+  border-radius: 8px; /* Matches the square look */
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.player-name {
+  margin: 0 0 8px 0;
+  color: #0f172a;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.player-role {
+  margin: 0 0 15px 0;
+  color: #64748b;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.player-base-price {
+  margin: 0;
+  color: #10b981;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: #ecfdf5;
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+/* Custom subtle scrollbar */
+.view-players-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.view-players-container::-webkit-scrollbar-track {
+  background: #0b1329;
+}
+
+.view-players-container::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+.view-players-container::-webkit-scrollbar-thumb:hover {
+  background: #eab308; /* Turns gold on hover */
+}
+/* On small mobile screens, drop it back to 1 column so it isn't squeezed */
+@media (max-width: 768px) {
+  .players-grid {
+    grid-template-columns: 1fr;
+  }
+}

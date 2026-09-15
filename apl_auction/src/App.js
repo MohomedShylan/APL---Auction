@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import './App.css';
+
+// Import Firebase auth and db, plus the Firestore functions we need for real-time sync
+import { auth, db } from './firebase'; 
+import { doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 
 import { MASTER_PLAYERS } from './playersData';
 import { TEAM_CAPTAINS } from './captainsData';
@@ -10,10 +16,13 @@ import { FOREIGN_PLAYERS } from './foreignPlayersData';
 
 import Home from './components/Home';
 import Dashboard from './components/Dashboard';
-import UnsoldPool from './components/UnsoldPool';
+import ViewPlayers from './components/ViewPlayers';
 import Summary from './components/Summary';
 import Roster from './components/Roster';
 import LiveAuction from './components/LiveAuction';
+
+import Login from './components/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const INITIAL_TEAMS = [
   { id: 'falcons', name: 'Falcons', budget: 500000, players: [TEAM_CAPTAINS.falcons], color: '#2563eb' },
@@ -26,17 +35,67 @@ const INITIAL_TEAMS = [
   { id: 'lions', name: 'Lions', budget: 500000, players: [TEAM_CAPTAINS.lions], color: '#eab308' },
 ];
 
-export default function App() {
+const AppContent = () => {
   const [teams, setTeams] = useState(INITIAL_TEAMS);
   const [unsoldPlayers, setUnsoldPlayers] = useState([]); 
+  const [news, setNews] = useState([]); // Dynamic news state
   const [activeTeamId, setActiveTeamId] = useState('falcons');
-  const [currentView, setCurrentView] = useState('home');
   
   const [playerId, setPlayerId] = useState('');
   const [price, setPrice] = useState('');
   const [error, setError] = useState('');
   const [boostAmount, setBoostAmount] = useState('');
 
+  const [user, setUser] = useState(null);
+  
+  // --- NEW: Mobile Menu State ---
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // 1. Listen for login/logout changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // 2. Real-Time Firestore Sync Listener
+  useEffect(() => {
+    const auctionDocRef = doc(db, 'auction', 'main');
+    
+    const unsubscribe = onSnapshot(auctionDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setTeams(data.teams || INITIAL_TEAMS);
+        setUnsoldPlayers(data.unsoldPlayers || []);
+        setNews(data.news || []);
+      } else if (auth.currentUser) {
+        setDoc(auctionDocRef, {
+          teams: INITIAL_TEAMS,
+          unsoldPlayers: [],
+          news: [] 
+        }).catch(err => console.error("Error initializing DB:", err));
+      }
+    });
+
+    return () => unsubscribe(); 
+  }, [user]);
+
+  const setCurrentView = (view) => {
+    if (view === 'home') navigate('/');
+    else navigate(`/${view}`);
+  };
+
+  // --- NEW: Helper to navigate and close mobile menu ---
+  const handleNavClick = (path) => {
+    navigate(path);
+    setIsMobileMenuOpen(false);
+  };
+
+  const currentPath = location.pathname;
   const activeTeam = teams.find(t => t.id === activeTeamId);
   const parsedId = parseInt(playerId, 10);
   
@@ -44,6 +103,17 @@ export default function App() {
   if (!isNaN(parsedId)) {
     playerToSell = MASTER_PLAYERS.find(p => p.id === parsedId) || FOREIGN_PLAYERS.find(p => p.id === parsedId);
   }
+
+  // --- Dynamic News Handlers ---
+  const handleAddNews = (newNewsItem) => {
+    const updatedNews = [newNewsItem, ...news];
+    updateDoc(doc(db, 'auction', 'main'), { news: updatedNews });
+  };
+
+  const handleRemoveNews = (newsId) => {
+    const updatedNews = news.filter(n => n.id !== newsId);
+    updateDoc(doc(db, 'auction', 'main'), { news: updatedNews });
+  };
 
   const handleMarkUnsold = () => {
     setError('');
@@ -56,7 +126,12 @@ export default function App() {
     const isAlreadyUnsold = unsoldPlayers.some(p => p.id === parsedId);
     if (isAlreadyUnsold) return setError(`${playerToSell.name} is already in the Unsold Pool!`);
 
-    setUnsoldPlayers([...unsoldPlayers, playerToSell]);
+    const updatedUnsold = [...unsoldPlayers, playerToSell];
+    
+    updateDoc(doc(db, 'auction', 'main'), {
+      unsoldPlayers: updatedUnsold
+    });
+
     setPlayerId('');
     setPrice('');
   };
@@ -95,20 +170,30 @@ export default function App() {
       return setError(`Bid failed! Insufficient funds. ${activeTeam.name} only has Rs. ${activeTeam.budget.toLocaleString()} remaining in their purse.`);
     }
 
-    setTeams(teams.map(team => {
+    const updatedTeams = teams.map(team => {
       if (team.id === activeTeamId) {
         return {
           ...team,
           budget: team.budget - sellPrice,
           players: [...team.players, { 
-            id: parsedId, name: playerToSell.name, role: playerToSell.role, price: sellPrice, isForeign: playerToSell.isForeign
+            id: parsedId, 
+            name: playerToSell.name || "Unknown", 
+            role: playerToSell.role || "Unknown", 
+            price: sellPrice, 
+            isForeign: playerToSell.isForeign || false 
           }]
         };
       }
       return team;
-    }));
+    });
 
-    setUnsoldPlayers(unsoldPlayers.filter(p => p.id !== parsedId));
+    const updatedUnsold = unsoldPlayers.filter(p => p.id !== parsedId);
+
+    updateDoc(doc(db, 'auction', 'main'), {
+      teams: updatedTeams,
+      unsoldPlayers: updatedUnsold
+    });
+
     setPlayerId('');
     setPrice('');
   };
@@ -117,13 +202,19 @@ export default function App() {
     e.preventDefault();
     const amount = parseInt(boostAmount, 10);
     if (isNaN(amount) || amount <= 0) return;
-    setTeams(teams.map(team => team.id === activeTeamId ? { ...team, budget: team.budget + amount } : team));
+    
+    const updatedTeams = teams.map(team => 
+      team.id === activeTeamId ? { ...team, budget: team.budget + amount } : team
+    );
+
+    updateDoc(doc(db, 'auction', 'main'), { teams: updatedTeams });
+    
     setBoostAmount('');
     setError('');
   };
 
   const handleRemovePlayer = (teamId, playerIdToRemove) => {
-    setTeams(teams.map(team => {
+    const updatedTeams = teams.map(team => {
       if (team.id === teamId) {
         const playerToRemove = team.players.find(p => p.id === playerIdToRemove);
         if (!playerToRemove || playerToRemove.isCaptain || playerToRemove.isDirectSign) return team;
@@ -134,7 +225,9 @@ export default function App() {
         };
       }
       return team;
-    }));
+    });
+
+    updateDoc(doc(db, 'auction', 'main'), { teams: updatedTeams });
   };
 
   const handleSwitchTeam = (teamId) => {
@@ -210,6 +303,11 @@ export default function App() {
     doc.save(`APL_2026_${activeTeam.name}_Roster.pdf`);
   };
 
+  const handleLogout = () => {
+    signOut(auth);
+    navigate('/');
+  };
+
   return (
     <div className="app-wrapper">
       <nav className="top-nav">
@@ -217,49 +315,96 @@ export default function App() {
           <img src="/logos/APL logo.png" alt="APL Logo" className="nav-logo" />
           <div>APL <span>Auction</span></div>
         </div>
-        <div className="nav-links">
-          <button className={`nav-btn ${currentView === 'home' ? 'active-nav' : ''}`} onClick={() => setCurrentView('home')}>Home</button>
-          <button className={`nav-btn ${currentView === 'live' ? 'active-nav' : ''}`} onClick={() => setCurrentView('live')}>Live Presentation</button>
-          <button className={`nav-btn ${currentView === 'dashboard' ? 'active-nav' : ''}`} onClick={() => setCurrentView('dashboard')}>Management Dashboard</button>
-          <button className={`nav-btn ${currentView === 'unsold' ? 'active-nav' : ''}`} onClick={() => setCurrentView('unsold')}>Unsold Pool</button>
-          <button className={`nav-btn ${currentView === 'summary' || currentView === 'roster' ? 'active-nav' : ''}`} onClick={() => setCurrentView('summary')}>All Teams Summary</button>
+        
+        {/* NEW: Hamburger Menu Button */}
+        <button 
+          className="mobile-menu-toggle" 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? '✕' : '☰'}
+        </button>
+        
+        {/* UPDATED: Mobile Menu Classes & Nav Handlers */}
+        <div className={`nav-links ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
+          <button className={`nav-btn ${currentPath === '/' ? 'active-nav' : ''}`} onClick={() => handleNavClick('/')}>Home</button>
+          
+          {user && (
+            <>
+              <button className={`nav-btn ${currentPath === '/live' ? 'active-nav' : ''}`} onClick={() => handleNavClick('/live')}>Live Presentation</button>
+              <button className={`nav-btn ${currentPath === '/dashboard' ? 'active-nav' : ''}`} onClick={() => handleNavClick('/dashboard')}>Management Dashboard</button>
+            </>
+          )}
+          
+          <button className={`nav-btn ${currentPath === '/players' ? 'active-nav' : ''}`} onClick={() => handleNavClick('/players')}>View Players</button>          
+          <button className={`nav-btn ${currentPath === '/summary' || currentPath === '/roster' ? 'active-nav' : ''}`} onClick={() => handleNavClick('/summary')}>All Teams Summary</button>
+          
+          {user ? (
+            <button className="nav-btn" style={{backgroundColor: '#dc2626', marginLeft: '1rem'}} onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}>Logout</button>
+          ) : (
+            <button className="nav-btn" style={{backgroundColor: '#2563eb', marginLeft: '1rem'}} onClick={() => handleNavClick('/login')}>Admin Login</button>
+          )}
         </div>
       </nav>
 
       <div className="page-content">
-        {currentView === 'home' && <Home setCurrentView={setCurrentView} />}
-        {currentView === 'live' && (
-          <LiveAuction 
-            teams={teams}
-            unsoldPlayers={unsoldPlayers}
-            setUnsoldPlayers={setUnsoldPlayers}
-            setPlayerId={setPlayerId}
-            setCurrentView={setCurrentView}
+        <Routes>
+          <Route 
+            path="/" 
+            element={
+              <Home 
+                setCurrentView={setCurrentView} 
+                user={user} 
+                news={news} 
+                onAddNews={handleAddNews} 
+                onRemoveNews={handleRemoveNews} 
+                teams={teams}
+                setActiveTeamId={setActiveTeamId}
+              />
+            } 
           />
-        )}
-        {currentView === 'dashboard' && (
-          <Dashboard 
-            teams={teams} activeTeamId={activeTeamId} activeTeam={activeTeam}
-            handleSwitchTeam={handleSwitchTeam}
-            playerId={playerId} setPlayerId={setPlayerId}
-            price={price} setPrice={setPrice}
-            error={error} setError={setError}
-            boostAmount={boostAmount} setBoostAmount={setBoostAmount}
-            playerToSell={playerToSell}
-            handleSellPlayer={handleSellPlayer} handleMarkUnsold={handleMarkUnsold}
-            handleIncreaseBudget={handleIncreaseBudget} handleRemovePlayer={handleRemovePlayer}
-            handleDownloadPDF={handleDownloadPDF}
-          />
-        )}
-        
-        {currentView === 'unsold' && <UnsoldPool unsoldPlayers={unsoldPlayers} setPlayerId={setPlayerId} setCurrentView={setCurrentView} />}
-        
-        {currentView === 'summary' && <Summary teams={teams} setActiveTeamId={setActiveTeamId} setCurrentView={setCurrentView} />}
-        
-        {currentView === 'roster' && <Roster activeTeam={activeTeam} setCurrentView={setCurrentView} handleDownloadPDF={handleDownloadPDF} />}
-
-        
+          <Route path="/login" element={<Login />} />
+          <Route path="/players" element={<ViewPlayers teams={teams} unsoldPlayers={unsoldPlayers} />} />          
+          <Route path="/summary" element={<Summary teams={teams} setActiveTeamId={setActiveTeamId} setCurrentView={setCurrentView} />} />
+          <Route path="/roster" element={<Roster activeTeam={activeTeam} setCurrentView={setCurrentView} handleDownloadPDF={handleDownloadPDF} />} />
+          
+          <Route path="/live" element={
+            <ProtectedRoute user={user}>
+              <LiveAuction 
+                teams={teams}
+                unsoldPlayers={unsoldPlayers}
+                setUnsoldPlayers={setUnsoldPlayers}
+                setPlayerId={setPlayerId}
+                setCurrentView={setCurrentView}
+              />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/dashboard" element={
+            <ProtectedRoute user={user}>
+              <Dashboard 
+                teams={teams} activeTeamId={activeTeamId} activeTeam={activeTeam}
+                handleSwitchTeam={handleSwitchTeam}
+                playerId={playerId} setPlayerId={setPlayerId}
+                price={price} setPrice={setPrice}
+                error={error} setError={setError}
+                boostAmount={boostAmount} setBoostAmount={setBoostAmount}
+                playerToSell={playerToSell}
+                handleSellPlayer={handleSellPlayer} handleMarkUnsold={handleMarkUnsold}
+                handleIncreaseBudget={handleIncreaseBudget} handleRemovePlayer={handleRemovePlayer}
+                handleDownloadPDF={handleDownloadPDF}
+              />
+            </ProtectedRoute>
+          } />
+        </Routes>
       </div>
     </div>
+  );
+};
+
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 }

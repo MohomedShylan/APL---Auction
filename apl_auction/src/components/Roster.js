@@ -38,17 +38,20 @@ export default function Roster({ activeTeam, setCurrentView, handleDownloadPDF }
             <tbody>
               {activeTeam.players.map((player, index) => (
                 <tr key={index}>
-                  <td className="id-col">{player.isCaptain || player.isDirectSign ? 'DIR' : `#${player.id}`}</td>
-                  <td className="name-col">
+                  {/* ADDED: data-label attributes for mobile view rendering */}
+                  <td className="id-col" data-label="Player ID">
+                    {player.isCaptain || player.isDirectSign ? 'DIR' : `#${player.id}`}
+                  </td>
+                  <td className="name-col" data-label="Player Name">
                     <strong style={{ color: activeTeam.color }}>{player.name}</strong>
                     {player.isCaptain && <span style={{fontSize: '0.85rem', marginLeft: '10px', color: '#fbbf24'}}>(Captain)</span>}
                     {player.isDirectSign && !player.isCaptain && <span style={{fontSize: '0.85rem', marginLeft: '10px', color: '#fbbf24'}}>(Direct)</span>}
                     {player.isForeign && <AirplaneIcon />}
                   </td>
-                  <td className="role-col">
+                  <td className="role-col" data-label="Specialty Role">
                     <span className="role-badge">{player.role}</span>
                   </td>
-                  <td className="price-col text-right">
+                  <td className="price-col text-right" data-label="Purchase Price">
                     {player.isCaptain || player.isDirectSign ? <span style={{ color: '#10b981' }}>Direct Sign</span> : `Rs. ${player.price.toLocaleString()}`}
                   </td>
                 </tr>

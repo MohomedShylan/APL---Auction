@@ -1,5 +1,15 @@
+/* src/components/Summary.css */
+
+/* 1. UPDATED: Full screen breakout and scrolling handling */
 .summary-page { 
-  width: 100%; padding: 40px 60px; overflow-y: auto; 
+  width: 100vw; 
+  margin-left: calc(50% - 50vw);
+  height: 100%;
+  max-height: calc(100vh - 70px);
+  padding: 40px 60px; 
+  overflow-y: auto; 
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .summary-header { margin-bottom: 40px; text-align: center; }
@@ -30,11 +40,12 @@
 .progress-fill { height: 100%; border-radius: 10px; transition: width 0.4s ease; }
 
 .summary-card-footer { margin-top: auto; }
-/* --- NEW LOGO ALIGNMENT --- */
+
+/* --- LOGO ALIGNMENT --- */
 .team-title-wrapper {
   display: flex;
   align-items: center;
-  gap: 12px; /* Space between logo and text */
+  gap: 12px;
 }
 
 .team-summary-logo {
@@ -42,4 +53,41 @@
   height: 56px;
   object-fit: contain; 
   border-radius: 4px; 
+}
+
+
+/* --- NEW: MOBILE RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+  
+  /* Reduce outer padding for smaller screens */
+  .summary-page {
+    padding: 30px 15px 80px 15px; 
+  }
+
+  /* Shrink header text slightly */
+  .summary-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .summary-header p {
+    font-size: 0.95rem;
+    padding: 0 10px;
+  }
+
+  /* Force the grid to stack into a single column */
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Shrink metrics slightly to prevent overflow */
+  .metric-value {
+    font-size: 1.5rem;
+  }
+
+  /* Adjust the card header to handle long team names better on mobile */
+  .summary-card-header {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
 }

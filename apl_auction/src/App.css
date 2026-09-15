@@ -202,3 +202,60 @@ body {
   color: #ffffff; 
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); 
 }
+/* --- MOBILE NAVIGATION --- */
+
+/* Hide the hamburger icon by default on desktop */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+/* Ensure the nav bar acts as an anchor for the drop-down */
+.top-nav {
+  position: relative; 
+}
+
+/* When the screen shrinks below 900px, trigger mobile mode */
+@media (max-width: 900px) {
+  
+  /* Show the hamburger icon */
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  /* Hide the normal button row and convert it into a hidden drop-down */
+  .nav-links {
+    display: none; 
+    flex-direction: column;
+    position: absolute;
+    top: 70px; /* Adjust this if your navbar is taller or shorter */
+    left: 0;
+    width: 100%;
+    background-color: #0f172a; /* Dark navy background */
+    padding: 20px;
+    box-sizing: border-box;
+    border-bottom: 2px solid #eab308; /* Gold trim on the bottom */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  /* When the toggle is clicked, show the drop-down menu */
+  .nav-links.mobile-active {
+    display: flex;
+    gap: 15px;
+  }
+
+  /* Stretch the buttons to fill the screen nicely */
+  .nav-links .nav-btn {
+    width: 100%;
+    margin-left: 0 !important; /* Overrides the gap on login/logout buttons */
+    text-align: center;
+    padding: 12px;
+    font-size: 1.1rem;
+  }
+}

@@ -8,7 +8,7 @@ export default function LiveAuction({ teams, unsoldPlayers, setUnsoldPlayers, se
   const [activeDisplayId, setActiveDisplayId] = useState(null);
   const [error, setError] = useState('');
 
-  // 1. Search Logic
+  // 1. Search Logic (Triggers on Enter key)
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -29,13 +29,13 @@ export default function LiveAuction({ teams, unsoldPlayers, setUnsoldPlayers, se
     }
   };
 
-  // 2. Sold Logic 
+  // 2. Sold Logic (Navigates to Dashboard and pre-fills ID)
   const handleSold = () => {
     setPlayerId(activeDisplayId.toString());
     setCurrentView('dashboard');
   };
 
-  // 3. Unsold Logic 
+  // 3. Unsold Logic (Adds to pool, clears screen)
   const handleUnsold = () => {
     const player = [...MASTER_PLAYERS, ...FOREIGN_PLAYERS].find(p => p.id === activeDisplayId);
     
@@ -60,6 +60,7 @@ export default function LiveAuction({ teams, unsoldPlayers, setUnsoldPlayers, se
 
   return (
     <div className="live-auction-page">
+      {/* Search Header */}
       <div className="live-search-header">
         <h2>Live Player Display</h2>
         <div className="search-box">
@@ -74,7 +75,7 @@ export default function LiveAuction({ teams, unsoldPlayers, setUnsoldPlayers, se
         {error && <div className="live-error">{error}</div>}
       </div>
 
-      {/* Main Display */}
+      {/* Main Display Area */}
       <div className="live-display-area">
         {!activeDisplayId ? (
           <div className="live-empty-state">
@@ -87,7 +88,9 @@ export default function LiveAuction({ teams, unsoldPlayers, setUnsoldPlayers, se
           </div>
         ) : (
           <div className="live-player-card">
-            
+            {/* 
+              This will now look for "01.jpeg", "02.jpeg", "13.jpeg" inside the public folder 
+            */}
             <img 
               src={`/player_image/${formattedImageId}.jpeg`} 
               alt={`Player ${activeDisplayId}`} 

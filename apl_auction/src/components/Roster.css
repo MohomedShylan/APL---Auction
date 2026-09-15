@@ -1,5 +1,14 @@
+/* src/components/Roster.css */
+
 .roster-page {
-  width: 100%; padding: 40px 60px; overflow-y: auto; background-color: #040814;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: calc(100vh - 70px);
+  padding: 40px 60px 80px 60px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #040814;
+  box-sizing: border-box;
 }
 
 .back-btn {
@@ -17,13 +26,98 @@
 
 .full-width-card { width: 100%; max-width: 1100px; margin: 0 auto; }
 
-.large-table th { font-size: 0.9rem; padding: 16px 24px; background-color: #0a1128; border-bottom: 2px solid #1e293b; }
+.large-table { width: 100%; border-collapse: collapse; }
+.large-table th { font-size: 0.9rem; padding: 16px 24px; background-color: #0a1128; border-bottom: 2px solid #1e293b; text-align: left; color: #9ca3af; }
 .large-table td { padding: 20px 24px; font-size: 1.05rem; border-bottom: 1px solid #1e293b; }
+.large-table .text-right { text-align: right; }
 
 .id-col { color: #64748b !important; font-weight: 600; width: 10%; }
 .name-col { font-size: 1.15rem; width: 35%; color: #ffffff; }
-.role-badge { background-color: rgba(255, 255, 255, 0.05); color: #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid #334155; }
+.role-badge { background-color: rgba(255, 255, 255, 0.05); color: #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid #334155; display: inline-block; }
 .price-col { font-weight: 700; color: #10b981 !important; width: 25%; }
 
-.empty-roster { text-align: center; padding: 60px 20px; color: #64748b; }
-.empty-roster h2 { margin-top: 0; color: #ffffff; }
+/* --- 2. NEW: MOBILE CARD VIEW FOR TABLES --- */
+/* --- 2. NEW: MOBILE CARD VIEW FOR TABLES --- */
+@media (max-width: 768px) {
+  
+  /* Reduced side padding to give the card more room */
+  .roster-page { 
+    padding: 20px 10px 80px 10px; 
+    overflow-x: hidden; 
+  }
+
+  .roster-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .roster-header-content h1 { font-size: 1.8rem; }
+  
+  .budget-highlight { 
+    width: 100%; 
+    text-align: center; 
+    box-sizing: border-box; 
+    padding: 12px; 
+  }
+
+  /* Force strict containment on the card wrapper */
+  .full-width-card {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .large-table thead {
+    display: none;
+  }
+
+  /* Force table elements to stack and strictly respect boundaries */
+  .large-table, .large-table tbody, .large-table tr, .large-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .large-table tr {
+    margin-bottom: 20px;
+    background: #0a1128;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* Adjusted padding so text doesn't hit the right edge */
+  .large-table td {
+    text-align: right;
+    padding: 12px 15px 12px 50%; /* 50% left padding makes room for the label */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+  }
+
+  .large-table td:last-child {
+    border-bottom: none;
+  }
+
+  .large-table td.text-right {
+    text-align: right;
+  }
+
+  /* Constrain the left-side labels so they don't push into the data */
+  .large-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40%;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #9ca3af;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

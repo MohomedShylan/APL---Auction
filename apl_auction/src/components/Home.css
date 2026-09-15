@@ -1,69 +1,590 @@
-.home-page {
-  flex: 1;
-  width: 100%;
-  position: relative;
-  display: flex;
-}
-
-.hero-banner {
-  flex: 1;
-  width: 100%;
+/* src/components/Home.css */
+.home-wrapper {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+  
+  /* 1. Force the page to be 100% of the screen width */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  
+  /* 2. Lock the height under the navbar and push the scrollbar to the far right */
   height: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #040814;
-  overflow: hidden;
+  max-height: calc(100vh - 70px); 
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.hero-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.35;
-  z-index: 0;
+/* --- HERO SECTION --- */
+.hero-section {
+  position: relative;
+  background-color: #0f172a; 
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  padding: 100px 20px;
+  text-align: center;
+  overflow: hidden;
+  height: 530px;
 }
 
 .hero-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, #1d4ed8 0%, #0f172a 70%, #000000 100%);
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.hero-content {
   position: relative;
   z-index: 2;
+  max-w-width: 1000px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background-color: rgba(234, 179, 8, 0.15);
+  border: 1px solid #eab308;
+  color: #facc15;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 50px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin: 0 0 15px 0;
+  letter-spacing: -1px;
+}
+
+.text-gold {
+  background: linear-gradient(to right, #facc15, #ca8a04);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-tagline {
+  font-size: 1.5rem;
+  color: #cbd5e1;
+  font-style: italic;
+  font-weight: 300;
+  margin-bottom: 40px;
+}
+/* --- HERO LOGOS SHOWCASE --- */
+.hero-logos-showcase {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  padding: 15px;
+  background: rgba(15, 23, 42, 0.6); /* Adds a subtle dark blur behind logos */
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-team-logo {
+  width: 85px;
+  height: 85px;
+  object-fit: contain;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+  cursor: pointer;
+}
+
+.hero-team-logo:hover {
+  transform: scale(1.15) translateY(-5px);
+  filter: drop-shadow(0 8px 12px rgba(234, 179, 8, 0.4)); /* Gives a slight gold glow on hover */
+}
+
+/* Responsive adjustment for smaller screens */
+@media (max-width: 768px) {
+  .hero-team-logo {
+    width: 50px;
+    height: 50px;
+  }
+}
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 14px 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #eab308;
+  color: #0f172a;
+  box-shadow: 0 10px 20px rgba(234, 179, 8, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: #facc15;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #1e293b;
+  color: #ffffff;
+  border: 1px solid #334155;
+}
+
+.btn-secondary:hover {
+  background-color: #334155;
+}
+
+/* --- STATS BAR --- */
+.stats-bar {
+  background-color: #eab308;
+  padding: 25px 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.stat-item {
   text-align: center;
-  background: rgba(10, 17, 40, 0.75);
-  padding: 60px 40px;
-  border-radius: 24px;
-  border: 1px solid rgba(251, 191, 36, 0.2);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  flex: 1;
+}
+
+.stat-item:not(:last-child) {
+  border-right: 1px solid #ca8a04;
+}
+
+.stat-number {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #422006;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 5px;
+}
+
+/* --- SECTIONS COMMON --- */
+.teams-section, .news-section {
+  padding: 80px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.news-section {
+  max-width: 100%;
+  background-color: #f1f5f9;
+  border-top: 1px solid #e2e8f0;
+}
+
+.news-section .news-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.header-underline {
+  width: 80px;
+  height: 4px;
+  background-color: #eab308;
+  border-radius: 5px;
+  margin: 15px auto 0;
+}
+
+/* --- THE FRANCHISES (SUMMARY CARDS) --- */
+.summary-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+  gap: 30px; 
+}
+
+.summary-card {
+  background: #0f172a; 
+  border-radius: 16px; 
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+  border: 1px solid #1e293b;
+  display: flex; 
+  flex-direction: column;
+  text-align: left;
+}
+
+.summary-card-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 20px; 
+  border-bottom: 1px solid #1e293b; 
+  padding-bottom: 16px; 
+}
+
+.team-title-wrapper { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+}
+
+.team-summary-logo { 
+  width: 50px; 
+  height: 50px; 
+  object-fit: contain; 
+  border-radius: 4px; 
+}
+
+.status-badge { 
+  font-size: 0.85rem; 
+  font-weight: 700; 
+  padding: 6px 12px; 
+  border-radius: 20px; 
+}
+
+.summary-metrics { 
+  flex-grow: 1; 
+  margin-bottom: 24px; 
+}
+
+.metric-box { 
+  display: flex; 
+  flex-direction: column; 
+  margin-bottom: 20px; 
+}
+
+.metric-label { 
+  font-size: 0.9rem; 
+  color: #9ca3af; 
+  font-weight: 600; 
+  margin-bottom: 4px; 
+}
+
+.metric-value { 
+  font-size: 1.8rem; 
+  font-weight: 800; 
+  color: #ffffff; 
+  margin: 0;
+}
+
+.summary-card-footer { 
+  margin-top: auto; 
+}
+
+.manage-shortcut-btn {
+  background: transparent;
+  border: 1px solid;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.manage-shortcut-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* --- NEWS GRID --- */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.news-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid #ccc;
+}
+
+.news-card.border-gold { border-left-color: #eab308; }
+.news-card.border-blue { border-left-color: #2563eb; }
+.news-card.border-dark { border-left-color: #1e293b; }
+
+.news-tag {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.news-tag.text-gold { color: #ca8a04; }
+.news-tag.text-blue { color: #2563eb; }
+.news-tag.text-dark { color: #1e293b; }
+
+.news-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  color: #0f172a;
+}
+
+.news-desc {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.news-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.news-list li {
+  margin-bottom: 8px;
+}
+
+.news-list strong {
+  color: #334155;
+}
+
+.badge-completed {
+  display: inline-block;
+  background-color: #e2e8f0;
+  color: #475569;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+/* --- FOOTER --- */
+.home-footer {
+  background-color: #0f172a;
+  color: #94a3b8;
+  border-top: 4px solid #eab308;
+  padding: 60px 20px 20px;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.brand-logo {
+  width: 45px;
+  height: 45px;
+  background-color: #eab308;
+  color: #0f172a;
+  font-size: 1.5rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.footer-brand h2 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.footer-text {
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.prize-pool p {
+  margin: 5px 0;
+}
+
+.prize-gold {
+  color: #facc15;
+  font-weight: bold;
+}
+
+.prize-silver {
+  color: #e2e8f0;
+  font-weight: bold;
+}
+
+.footer-contact h3 {
+  color: #ffffff;
+  font-size: 1.3rem;
+  margin-top: 0;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-list li {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.contact-list span {
+  color: #facc15;
+}
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 40px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid #334155;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 900px) {
+  .hero-title { font-size: 2.5rem; }
+  .summary-grid { grid-template-columns: 1fr; }
+  .news-grid { grid-template-columns: 1fr; }
+  .footer-container { grid-template-columns: 1fr; text-align: center; }
+  .footer-brand { justify-content: center; }
+  .hero-buttons { flex-direction: column; }
+}
+
+@media (max-width: 500px) {
+  .stats-container { flex-direction: column; gap: 20px; }
+  .stat-item:not(:last-child) { border-right: none; border-bottom: 1px solid #ca8a04; padding-bottom: 15px; }
+}
+
+/* --- ADMIN NEWS PANEL --- */
+.admin-news-panel {
+  background-color: #ffffff;
+  border: 2px dashed #94a3b8;
+  border-radius: 12px;
+  padding: 25px;
+  margin: 0 auto 40px auto;
   max-width: 700px;
-  max-height: 700px;
-  width: 90%;
+}
+
+.admin-news-panel h3 {
+  margin-top: 0;
+  color: #0f172a;
+  margin-bottom: 20px;
+}
+
+.admin-news-panel form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
-.hero-overlay h1 {
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 800;
-  color: #fbbf24;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  line-height: 1.2;
+.admin-news-panel input,
+.admin-news-panel select,
+.admin-news-panel textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
-.hero-overlay p {
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  color: #e2e8f0;
-  margin: 10px 0 30px 0;
-  font-weight: 500;
+.admin-news-panel button {
+  align-self: flex-start;
 }
 
-.enter-btn {
-  width: auto;
-  padding: 16px 40px;
-  font-size: 1.2rem;
-  box-shadow: 0 4px 20px rgba(251, 191, 36, 0.3);
+/* --- DYNAMIC NEWS CARD ADJUSTMENTS --- */
+.news-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.news-tag {
+  margin-bottom: 0 !important; 
+}
+
+.btn-delete-news {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.btn-delete-news:hover {
+  background-color: #dc2626;
+}
+
+.no-news-msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #64748b;
+  font-size: 1.1rem;
+  font-style: italic;
+  padding: 40px;
+}
+/* --- CUSTOM SCROLLBAR --- */
+.home-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.home-wrapper::-webkit-scrollbar-track {
+  background: #0b1329; /* Deep dark navy background */
+}
+
+.home-wrapper::-webkit-scrollbar-thumb {
+  background: #334155; /* Subtle grey/blue thumb */
+  border-radius: 4px;
+}
+
+.home-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #eab308; /* Turns APL Gold when hovered! */
 }

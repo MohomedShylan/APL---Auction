@@ -14,7 +14,7 @@ export default function Summary({ teams, setActiveTeamId, setCurrentView }) {
           <div key={team.id} className="summary-card" style={{ borderTop: `4px solid ${team.color}` }}>
             <div className="summary-card-header">
               
-              {/* Wrapper for Logo and Name */}
+              {/* NEW: Wrapper for Logo and Name */}
               <div className="team-title-wrapper">
                 <img 
                   src={`/logos/${team.id}.png`} 

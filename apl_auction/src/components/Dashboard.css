@@ -103,10 +103,11 @@ form input:focus { outline: none; background-color: #0a1128; box-shadow: 0 0 10p
   border-radius: 10px; border-left: 4px solid #ef4444; margin-bottom: 24px; border: 1px solid #991b1b; 
 }
 
+/* --- NEW LOGO ALIGNMENT FOR SIDEBAR --- */
 .sidebar-team-title {
   display: flex;
   align-items: center;
-  gap: 10px; 
+  gap: 10px; /* Space between the logo and the team name */
 }
 
 .sidebar-team-logo {
@@ -116,15 +117,109 @@ form input:focus { outline: none; background-color: #0a1128; box-shadow: 0 0 10p
   border-radius: 4px;
 }
 
+/* --- NEW LOGO ALIGNMENT FOR DASHBOARD HEADER --- */
 .dashboard-title-wrapper {
   display: flex;
   align-items: center;
-  gap: 16px; 
+  gap: 16px; /* Spacing between large logo and the h1 */
 }
 
 .dashboard-header-logo {
   width: 60px;
   height: 60px;
   object-fit: contain;
-  border-radius: 8px; 
+  border-radius: 8px; /* Slightly rounded edges */
+}
+/* --- MOBILE RESPONSIVE DESIGN --- */
+@media (max-width: 900px) {
+  
+  /* 1. Stack the Sidebar and Main Panel vertically */
+  .auction-app {
+    flex-direction: column;
+    height: auto;
+  }
+
+  /* 2. Convert Sidebar into a scrolling horizontal or stacked row at the top */
+  .sidebar {
+    width: 100vw;
+    border-right: none;
+    border-bottom: 2px solid #1e293b;
+    /* Limit the height so it doesn't take over the whole screen */
+    max-height: 250px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Adjust the sidebar list to allow horizontal scrolling if preferred, or compact stacking */
+  .team-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .team-item {
+    flex: 1 1 calc(50% - 10px); /* Makes them sit 2-per-row on mobile */
+    margin-bottom: 0;
+    padding: 10px;
+  }
+
+  .sidebar-team-title h3 {
+    font-size: 0.95rem;
+  }
+  
+  .sidebar-team-logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* 3. Adjust Main Panel Padding */
+  .main-panel {
+    width: 100vw;
+    padding: 20px 15px 80px 15px; 
+    box-sizing: border-box;
+    /* Ensure scrolling on the main page */
+    overflow-y: auto;
+    height: calc(100vh - 320px); /* Subtracts Nav bar and Sidebar height */
+  }
+
+  /* 4. Shrink the Header to fit mobile */
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  .dashboard-title-wrapper h1 {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-header-logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .budget-highlight {
+    width: 100%;
+    align-items: center !important;
+    text-align: center;
+    border-radius: 8px;
+  }
+
+  /* 5. Force the main forms and tables to stack into a single column */
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .form-card {
+    padding: 20px;
+  }
+
+  /* Force table cells to wrap or scroll if necessary */
+  .squad-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }

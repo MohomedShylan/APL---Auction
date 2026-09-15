@@ -1,11 +1,16 @@
+/* src/components/LiveAuction.css */
+
+/* 1. UPDATED: Apply the full-screen "breakout" pattern */
 .live-auction-page {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: calc(100vh - 70px); /* Fits neatly under mobile nav */
   display: flex;
   flex-direction: column;
   background-color: #040814;
-  padding: 30px 40px;
-  overflow-y: auto;
+  padding: 30px 40px 80px 40px; /* Extra bottom padding for scrolling */
+  overflow-y: auto; 
+  box-sizing: border-box;
 }
 
 .live-search-header {
@@ -30,6 +35,10 @@
   letter-spacing: 1px;
 }
 
+.search-box {
+  width: auto;
+}
+
 .search-box input {
   width: 350px;
   padding: 14px 20px;
@@ -39,6 +48,7 @@
   color: #fff;
   font-size: 1.1rem;
   transition: all 0.2s;
+  box-sizing: border-box;
 }
 
 .search-box input:focus {
@@ -128,4 +138,45 @@
   background: linear-gradient(135deg, #dc2626, #b91c1c);
   color: #fff;
   box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4);
+}
+
+/* --- 2. NEW: MOBILE RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+  
+  /* Reduce outer padding for small screens */
+  .live-auction-page {
+    padding: 15px 15px 80px 15px;
+  }
+
+  /* Stack the header title and search box vertically */
+  .live-search-header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    text-align: center;
+  }
+
+  /* Force the search box to take full width */
+  .search-box, .search-box input {
+    width: 100%;
+  }
+
+  /* Reduce padding on the display area */
+  .live-display-area {
+    padding: 15px;
+  }
+
+  /* Stack the Sold/Unsold buttons vertically so they are easy to tap */
+  .live-action-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+  }
+
+  /* Make buttons stretch fully across the screen */
+  .live-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.2rem;
+  }
 }

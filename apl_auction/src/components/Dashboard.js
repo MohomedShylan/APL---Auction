@@ -78,6 +78,7 @@ export default function Dashboard({
         <div className="dashboard">
           <header className="dashboard-header">
             
+            {/* --- NEW: Header Title Wrapper with Logo --- */}
             <div className="dashboard-title-wrapper">
               <img 
                 src={`/logos/${activeTeam.id}.png`} 
