@@ -1,0 +1,63 @@
+/* src/components/UnsoldPlayers.css */
+
+.unsold-page {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: calc(100vh - 70px);
+  padding: 40px 60px 80px 60px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #040814;
+  box-sizing: border-box;
+}
+
+/* Custom Scrollbar */
+.unsold-page::-webkit-scrollbar { width: 10px; }
+.unsold-page::-webkit-scrollbar-track { background: #040814; }
+.unsold-page::-webkit-scrollbar-thumb { background-color: #1e293b; border-radius: 10px; border: 2px solid #040814; }
+.unsold-page::-webkit-scrollbar-thumb:hover { background-color: #fbbf24; }
+
+.unsold-header { margin-bottom: 40px; text-align: center; }
+.unsold-header h1 { margin: 0; font-size: 2.4rem; font-weight: 800; color: #ef4444; }
+.unsold-header p { margin: 8px 0 0 0; font-size: 1.1rem; color: #9ca3af; font-weight: 500; }
+
+.empty-state-card {
+  background: #0f172a; border-radius: 16px; padding: 60px 20px;
+  text-align: center; border: 1px solid #1e293b; color: #64748b;
+  max-width: 600px; margin: 0 auto;
+}
+.empty-state-card h2 { color: #ffffff; margin-top: 0; }
+
+.full-width-card { 
+  width: 100%; max-width: 1100px; margin: 0 auto; background: #0f172a; 
+  padding: 24px; border-radius: 16px; border: 1px solid #1e293b; 
+}
+
+.large-table { width: 100%; border-collapse: collapse; }
+.large-table th { font-size: 0.9rem; padding: 16px 24px; border-bottom: 2px solid #1e293b; text-align: left; color: #9ca3af; }
+.large-table td { padding: 20px 24px; font-size: 1.05rem; border-bottom: 1px solid #1e293b; }
+.large-table .text-right { text-align: right; }
+
+.id-col { color: #64748b !important; font-weight: 600; width: 15%; }
+.name-col { font-size: 1.15rem; width: 45%; color: #ffffff; }
+.role-badge { background-color: rgba(255, 255, 255, 0.05); color: #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid #334155; display: inline-block; }
+.price-col { font-weight: 700; width: 20%; color: #ef4444 !important; }
+
+/* Mobile Card View */
+@media (max-width: 768px) {
+  .unsold-page { padding: 20px 15px 80px 15px; }
+  .unsold-header h1 { font-size: 1.8rem; }
+  .full-width-card { padding: 15px; }
+  .large-table thead { display: none; }
+  .large-table, .large-table tbody, .large-table tr, .large-table td { display: block; width: 100%; box-sizing: border-box; }
+  .large-table tr { margin-bottom: 20px; background: #0a1128; border: 1px solid #334155; border-radius: 12px; overflow: hidden; }
+  .large-table td { text-align: right; padding: 12px 15px 12px 50%; border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: relative; }
+  .large-table td:last-child { border-bottom: none; }
+  .large-table td.text-right { text-align: right; }
+  
+  .large-table td::before { 
+    content: attr(data-label); position: absolute; left: 15px; top: 50%; 
+    transform: translateY(-50%); width: 40%; text-align: left; font-size: 0.85rem; 
+    font-weight: 600; color: #9ca3af; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+  }
+}

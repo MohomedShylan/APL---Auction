@@ -20,6 +20,7 @@ import ViewPlayers from './components/ViewPlayers';
 import Summary from './components/Summary';
 import Roster from './components/Roster';
 import LiveAuction from './components/LiveAuction';
+import UnsoldPlayers from './components/UnsoldPlayers'; // NEW: Unsold Players Component
 
 import Login from './components/Login';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -48,7 +49,7 @@ const AppContent = () => {
 
   const [user, setUser] = useState(null);
   
-  // --- NEW: Mobile Menu State ---
+  // Mobile Menu State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ const AppContent = () => {
     else navigate(`/${view}`);
   };
 
-  // --- NEW: Helper to navigate and close mobile menu ---
+  // Helper to navigate and close mobile menu
   const handleNavClick = (path) => {
     navigate(path);
     setIsMobileMenuOpen(false);
@@ -316,7 +317,7 @@ const AppContent = () => {
           <div>APL <span>Auction</span></div>
         </div>
         
-        {/* NEW: Hamburger Menu Button */}
+        {/* Hamburger Menu Button */}
         <button 
           className="mobile-menu-toggle" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -324,7 +325,7 @@ const AppContent = () => {
           {isMobileMenuOpen ? '✕' : '☰'}
         </button>
         
-        {/* UPDATED: Mobile Menu Classes & Nav Handlers */}
+        {/* Mobile-Friendly Navigation Links */}
         <div className={`nav-links ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
           <button className={`nav-btn ${currentPath === '/' ? 'active-nav' : ''}`} onClick={() => handleNavClick('/')}>Home</button>
           
@@ -332,6 +333,8 @@ const AppContent = () => {
             <>
               <button className={`nav-btn ${currentPath === '/live' ? 'active-nav' : ''}`} onClick={() => handleNavClick('/live')}>Live Presentation</button>
               <button className={`nav-btn ${currentPath === '/dashboard' ? 'active-nav' : ''}`} onClick={() => handleNavClick('/dashboard')}>Management Dashboard</button>
+              {/* NEW: Unsold Pool (Admin Only) */}
+              <button className={`nav-btn ${currentPath === '/unsold' ? 'active-nav' : ''}`} onClick={() => handleNavClick('/unsold')}>Unsold Pool</button>
             </>
           )}
           
@@ -393,6 +396,13 @@ const AppContent = () => {
                 handleIncreaseBudget={handleIncreaseBudget} handleRemovePlayer={handleRemovePlayer}
                 handleDownloadPDF={handleDownloadPDF}
               />
+            </ProtectedRoute>
+          } />
+
+          {/* NEW: Protected Unsold Players Route */}
+          <Route path="/unsold" element={
+            <ProtectedRoute user={user}>
+              <UnsoldPlayers unsoldPlayers={unsoldPlayers} />
             </ProtectedRoute>
           } />
         </Routes>
