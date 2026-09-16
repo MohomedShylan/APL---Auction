@@ -14,7 +14,7 @@
   flex-direction: column;
   border-right: 1px solid #1e293b;
   box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
-  z-index: 10; /* Keeps it above the main content */
+  z-index: 10;
 }
 
 .sidebar-title {
@@ -34,8 +34,21 @@
   padding: 16px;
 }
 
-.team-list::-webkit-scrollbar { width: 6px; height: 6px; }
-.team-list::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 4px; }
+/* --- CUSTOM SCROLLBAR FOR SIDEBAR --- */
+.team-list::-webkit-scrollbar { 
+  width: 6px; 
+  height: 6px; 
+}
+.team-list::-webkit-scrollbar-track { 
+  background: #0a1128; 
+}
+.team-list::-webkit-scrollbar-thumb { 
+  background-color: #334155; 
+  border-radius: 4px; 
+}
+.team-list::-webkit-scrollbar-thumb:hover { 
+  background-color: #fbbf24; 
+}
 
 .team-item {
   padding: 16px;
@@ -67,6 +80,22 @@
   flex-grow: 1;
   padding: 40px 50px;
   overflow-y: auto;
+}
+
+/* --- CUSTOM SCROLLBAR FOR MAIN PANEL --- */
+.main-panel::-webkit-scrollbar {
+  width: 10px;
+}
+.main-panel::-webkit-scrollbar-track {
+  background: #040814; 
+}
+.main-panel::-webkit-scrollbar-thumb {
+  background-color: #1e293b; 
+  border-radius: 10px;
+  border: 2px solid #040814; 
+}
+.main-panel::-webkit-scrollbar-thumb:hover {
+  background-color: #fbbf24; 
 }
 
 .empty-state { 
@@ -137,21 +166,19 @@ form input:focus { outline: none; background-color: #0a1128; box-shadow: 0 0 10p
 /* --- MOBILE RESPONSIVE DESIGN --- */
 @media (max-width: 900px) {
   
-  /* Stack the dashboard and apply full screen breakout */
   .auction-app {
     flex-direction: column;
     width: 100vw;
     margin-left: calc(50% - 50vw);
     height: calc(100vh - 70px);
-    overflow: hidden; /* Prevents double scrollbars */
+    overflow: hidden; 
   }
 
-  /* Transform Sidebar into a horizontal swiping tab bar */
   .sidebar {
     width: 100vw;
     border-right: none;
     border-bottom: 2px solid #1e293b;
-    flex-shrink: 0; /* Forces it to stay exactly its calculated height, preventing overlap */
+    flex-shrink: 0; 
   }
 
   .sidebar-title {
@@ -162,18 +189,17 @@ form input:focus { outline: none; background-color: #0a1128; box-shadow: 0 0 10p
   .team-list {
     display: flex;
     flex-direction: row;
-    overflow-x: auto; /* Allows swiping left and right */
+    overflow-x: auto; 
     white-space: nowrap;
     padding: 12px 20px;
     gap: 12px;
   }
 
   .team-item {
-    flex: 0 0 220px; /* Forces cards to be a fixed width so they don't squish */
-    margin-bottom: 0; /* Removes vertical gap */
+    flex: 0 0 220px; 
+    margin-bottom: 0; 
   }
 
-  /* Main Panel Adjustments */
   .main-panel {
     width: 100vw;
     padding: 20px 15px 80px 15px;
@@ -199,7 +225,6 @@ form input:focus { outline: none; background-color: #0a1128; box-shadow: 0 0 10p
     border-radius: 8px;
   }
 
-  /* Force Dashboard Grid into a single vertical column */
   .dashboard-grid {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -213,13 +238,12 @@ form input:focus { outline: none; background-color: #0a1128; box-shadow: 0 0 10p
     flex-direction: column;
   }
 
-  /* --- SQUAD TABLE MOBILE CARDS --- */
   .squad-card {
     padding: 20px 15px;
   }
 
   .squad-table thead {
-    display: none; /* Hides desktop column headers */
+    display: none; 
   }
 
   .squad-table, .squad-table tbody, .squad-table tr, .squad-table td {
@@ -238,7 +262,7 @@ form input:focus { outline: none; background-color: #0a1128; box-shadow: 0 0 10p
 
   .squad-table td {
     text-align: right;
-    padding: 12px 15px 12px 45%; /* Pushes text right to make room for labels */
+    padding: 12px 15px 12px 45%; 
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
@@ -251,7 +275,6 @@ form input:focus { outline: none; background-color: #0a1128; box-shadow: 0 0 10p
     text-align: right;
   }
 
-  /* Display the custom data labels */
   .squad-table td::before {
     content: attr(data-label);
     position: absolute;

@@ -11,6 +11,26 @@
   box-sizing: border-box;
 }
 
+/* --- CUSTOM SCROLLBAR FOR ROSTER PAGE --- */
+.roster-page::-webkit-scrollbar {
+  width: 10px;
+}
+
+.roster-page::-webkit-scrollbar-track {
+  background: #040814; 
+}
+
+.roster-page::-webkit-scrollbar-thumb {
+  background-color: #1e293b; 
+  border-radius: 10px;
+  border: 2px solid #040814; 
+}
+
+.roster-page::-webkit-scrollbar-thumb:hover {
+  background-color: #fbbf24; 
+}
+
+/* --- EXISTING STYLES --- */
 .back-btn {
   background: transparent; border: none; color: #fbbf24; 
   font-size: 1rem; font-weight: 600; cursor: pointer; padding: 0;
@@ -36,15 +56,10 @@
 .role-badge { background-color: rgba(255, 255, 255, 0.05); color: #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid #334155; display: inline-block; }
 .price-col { font-weight: 700; color: #10b981 !important; width: 25%; }
 
-/* --- 2. NEW: MOBILE CARD VIEW FOR TABLES --- */
-/* --- 2. NEW: MOBILE CARD VIEW FOR TABLES --- */
+/* --- 2. MOBILE CARD VIEW FOR TABLES --- */
 @media (max-width: 768px) {
   
-  /* Reduced side padding to give the card more room */
-  .roster-page { 
-    padding: 20px 10px 80px 10px; 
-    overflow-x: hidden; 
-  }
+  .roster-page { padding: 20px 10px 80px 10px; overflow-x: hidden; }
 
   .roster-header-content {
     flex-direction: column;
@@ -53,15 +68,8 @@
   }
 
   .roster-header-content h1 { font-size: 1.8rem; }
-  
-  .budget-highlight { 
-    width: 100%; 
-    text-align: center; 
-    box-sizing: border-box; 
-    padding: 12px; 
-  }
+  .budget-highlight { width: 100%; text-align: center; box-sizing: border-box; padding: 12px; }
 
-  /* Force strict containment on the card wrapper */
   .full-width-card {
     width: 100%;
     box-sizing: border-box;
@@ -73,7 +81,6 @@
     display: none;
   }
 
-  /* Force table elements to stack and strictly respect boundaries */
   .large-table, .large-table tbody, .large-table tr, .large-table td {
     display: block;
     width: 100%;
@@ -88,10 +95,9 @@
     overflow: hidden;
   }
 
-  /* Adjusted padding so text doesn't hit the right edge */
   .large-table td {
     text-align: right;
-    padding: 12px 15px 12px 50%; /* 50% left padding makes room for the label */
+    padding: 12px 15px 12px 50%; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     position: relative;
   }
@@ -104,7 +110,6 @@
     text-align: right;
   }
 
-  /* Constrain the left-side labels so they don't push into the data */
   .large-table td::before {
     content: attr(data-label);
     position: absolute;

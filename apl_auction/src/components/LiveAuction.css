@@ -1,6 +1,6 @@
 /* src/components/LiveAuction.css */
 
-/* 1. UPDATED: Apply the full-screen "breakout" pattern */
+/* --- 1. FULL-SCREEN LAYOUT & BASE --- */
 .live-auction-page {
   width: 100vw;
   margin-left: calc(50% - 50vw);
@@ -13,6 +13,26 @@
   box-sizing: border-box;
 }
 
+/* --- CUSTOM SCROLLBAR FOR LIVE AUCTION --- */
+.live-auction-page::-webkit-scrollbar {
+  width: 10px;
+}
+
+.live-auction-page::-webkit-scrollbar-track {
+  background: #040814; /* Matches the dark background */
+}
+
+.live-auction-page::-webkit-scrollbar-thumb {
+  background-color: #1e293b; /* Sleek slate color */
+  border-radius: 10px;
+  border: 2px solid #040814; /* Gives a nice padded look */
+}
+
+.live-auction-page::-webkit-scrollbar-thumb:hover {
+  background-color: #fbbf24; /* Pops to APL Gold when hovered */
+}
+
+/* --- SEARCH HEADER --- */
 .live-search-header {
   display: flex;
   align-items: center;
@@ -65,6 +85,7 @@
   border-radius: 8px;
 }
 
+/* --- MAIN DISPLAY AREA --- */
 .live-display-area {
   flex-grow: 1;
   display: flex;
@@ -105,6 +126,7 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
+/* --- UPGRADED ACTION BUTTONS --- */
 .live-action-buttons {
   display: flex;
   justify-content: center;
@@ -115,32 +137,50 @@
 .live-btn {
   padding: 16px 48px;
   font-size: 1.4rem;
-  font-weight: 800;
-  border: none;
+  font-weight: 900;
+  border: 2px solid transparent; 
   border-radius: 50px;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 2px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.live-btn:hover {
-  transform: translateY(-4px) scale(1.05);
-}
-
+/* The Green SOLD Button */
 .sold-btn {
   background: linear-gradient(135deg, #10b981, #059669);
   color: #fff;
-  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.4);
 }
 
+.sold-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(16, 185, 129, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5);
+  border-color: #34d399; 
+}
+
+/* The Red UNSOLD Button */
 .unsold-btn {
   background: linear-gradient(135deg, #dc2626, #b91c1c);
   color: #fff;
-  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.4);
 }
 
-/* --- 2. NEW: MOBILE RESPONSIVE DESIGN --- */
+.unsold-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(220, 38, 38, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5);
+  border-color: #f87171;
+}
+
+/* The Physical Click Effect */
+.live-btn:active {
+  transform: translateY(2px); /* Pushes the button "down" into the screen */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), inset 0 4px 8px rgba(0, 0, 0, 0.3); 
+}
+
+/* --- MOBILE RESPONSIVE DESIGN --- */
 @media (max-width: 768px) {
   
   /* Reduce outer padding for small screens */
