@@ -20,7 +20,7 @@ export default function Dashboard({
                 <div className="team-item-header">
                   <div className="sidebar-team-title">
                     <img 
-                      src={`/${team.id}.png`} 
+                      src={`/logos/${team.id}.png`} 
                       alt={`${team.name} Logo`} 
                       className="sidebar-team-logo"
                       onError={(e) => { e.target.style.display = 'none'; }} 
@@ -78,7 +78,6 @@ export default function Dashboard({
         <div className="dashboard">
           <header className="dashboard-header">
             
-            {/* --- NEW: Header Title Wrapper with Logo --- */}
             <div className="dashboard-title-wrapper">
               <img 
                 src={`/logos/${activeTeam.id}.png`} 
@@ -99,7 +98,7 @@ export default function Dashboard({
           </header>
 
           <div className="dashboard-grid">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div className="dashboard-forms-column" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               <div className="form-card">
                 <h3>Record a Sold Player</h3>
                 <form onSubmit={handleSellPlayer}>
@@ -118,7 +117,7 @@ export default function Dashboard({
                   
                   {error && <div className="error-text">{error}</div>}
                   
-                  <div style={{ display: 'flex', gap: '12px' }}>
+                  <div className="action-buttons-row" style={{ display: 'flex', gap: '12px' }}>
                     <button type="submit" className="submit-btn" disabled={activeTeam.players.length >= 8} style={{ flex: 2 }}>
                       {activeTeam.players.length >= 8 ? "Squad Full" : `Sell to ${activeTeam.name}`}
                     </button>
@@ -160,17 +159,18 @@ export default function Dashboard({
                 <tbody>
                   {activeTeam.players.map((player, index) => (
                     <tr key={index}>
-                      <td style={{ color: '#94a3b8' }}>{player.isCaptain || player.isDirectSign ? 'DIR' : `#${player.id}`}</td>
-                      <td>
+                      {/* ADDED: data-label attributes for mobile cards */}
+                      <td data-label="Player ID" style={{ color: '#94a3b8' }}>{player.isCaptain || player.isDirectSign ? 'DIR' : `#${player.id}`}</td>
+                      <td data-label="Player Name">
                         <strong>{player.name}</strong>
                         {player.isCaptain && <span style={{fontSize: '0.75rem', marginLeft: '8px', color: '#fbbf24'}}>(Captain)</span>}
                         {player.isDirectSign && !player.isCaptain && <span style={{fontSize: '0.75rem', marginLeft: '8px', color: '#fbbf24'}}>(Direct)</span>}
                         {player.isForeign && <AirplaneIcon />}
                       </td>
-                      <td className="text-right">
+                      <td data-label="Purchase Price" className="text-right">
                         {player.isCaptain || player.isDirectSign ? <span style={{ color: '#10b981' }}>Direct Sign</span> : `Rs. ${player.price.toLocaleString()}`}
                       </td>
-                      <td className="text-center">
+                      <td data-label="Action" className="text-center">
                         {player.isCaptain || player.isDirectSign ? (
                           <span style={{ color: '#64748b', fontSize: '0.85rem' }}>Retained</span>
                         ) : (
